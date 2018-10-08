@@ -2,10 +2,27 @@
 <html lang="en">
 <head>
     <link href="/css/stylesheet.css" rel="stylesheet" type="text/css" />
-    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+KR|Open+Sans" rel="stylesheet">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
+    <!--<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />-->
+    <!--<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js">-->
+
+    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
+
+
+    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
+    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>-->
+    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
+
+    <!--&lt;!&ndash;<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">&ndash;&gt;-->
+    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
+    </script>
     <script>
 
     function getData() {
@@ -160,10 +177,11 @@
 
                 // Reset modal to no values.
 
+                $("#inputChangePlaneIdentification").val("");
+                $("#inputChangeCruiseSpeed").val("");
+                $("#inputChangeAmountOfKerosene").val("");
+                $("#inputChangeIsFlying").val("");
                 $("#inputChangeId").val("");
-                $("#inputChangeName").val("");
-                $("#inputChangeAge").val("");
-                $("#inputChangeColor").val("");
             });
 
                 $("#deleteAirplaneForm").on('submit', function(e) {
@@ -174,7 +192,7 @@
 
                 // Reset modal to no values.
 
-                $("#inputChangeId").val("");
+                $("#inputDeleteId").val("");
             });
 
                 $('#table').DataTable({
@@ -235,6 +253,22 @@
                 <br>
                 <br>
 
+    <div class=“row”>
+        <div class=“col-md-12”>
+            <button type="button" data-toggle="modal" data-target="#newAirplaneModal">New Airplane</button>
+        </div>
+    </div>
+    <div class=“row”>
+        <div class=“col-md-12”>
+            <button type="button" data-toggle="modal" data-target="#changeAirplaneModal">Edit Airplane</button>
+        </div>
+    </div>
+    <div class=“row”>
+        <div class=“col-md-12”>
+            <button type="button" data-toggle="modal" data-target="#deleteAirplaneModal">Delete Airplane</button>
+        </div>
+    </div>
+
     <!-- New Airplane Modal -->
     <div id="newAirplaneModal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -243,12 +277,12 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">New Airplane</h4>
+                    <h2 class="modal-title">New Airplane</h2>
                 </div>
 
                 <div class="modal-body">
 
-                <form data-toggle="validator" role="form" id="newCatForm" onsubmit="return false;">
+                <form data-toggle="validator" role="form" id="newAirplaneForm" onsubmit="return false;">
                     <div class="form-group">
                         <label for="inputPlaneIdentification" class="control-label">Plane identification</label>
                         <input type="text" class="form-control" id="inputPlaneIdentification" placeholder="Enter plane identification" required>
@@ -283,52 +317,94 @@
     <!-- End of new Airplane Modal -->
 
 
+    <!-- Change Airplane Modal -->
+    <div id="changeAirplaneModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
-                <!--<h2>Change cat</h2>-->
-                <!--<form data-toggle="validator" role="form" id="changeCatForm" onsubmit="return false;">-->
+            <!-- Content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
 
-                    <!--<div class="form-group">-->
-                        <!--<label for="inputChangeId" class="control-label">Id of cat</label>-->
-                        <!--<input type="text" class="form-control" id="inputChangeId" placeholder="Enter the id" required>-->
-                    <!--</div>-->
+                <h2>Change airplane</h2>
 
-                    <!--<div class="form-group">-->
-                        <!--<label for="inputChangeName" class="control-label">Name of cat</label>-->
-                        <!--<input type="text" class="form-control" id="inputChangeName" placeholder="Enter a name" required>-->
-                    <!--</div>-->
+                </div>
 
-                    <!--<div class="form-group">-->
-                        <!--<label for="inputChangeAge" class="control-label">Age of cat</label>-->
-                        <!--<input type="text" class="form-control" id="inputChangeAge" placeholder="Enter the age" required>-->
-                    <!--</div>-->
+                <div class="modal-body">
 
-                    <!--<div class="form-group">-->
-                        <!--<label for="inputChangeColor" class="control-label">Color of cat</label>-->
-                        <!--<input type="text" class="form-control" id="inputChangeColor" placeholder="Enter the color" required>-->
-                    <!--</div>-->
+                <form data-toggle="validator" role="form" id="changeAirplaneForm" onsubmit="return false;">
 
-                    <!--<div class="form-group">-->
-                        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
-                        <!--<button id="closeButton2" type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                    <!--</div>-->
+                    <div class="form-group">
+                        <label for="inputChangeId" class="control-label">Id of plane</label>
+                        <input type="text" class="form-control" id="inputChangeId" placeholder="Enter the id" required>
+                    </div>
 
-                <!--</form>-->
+                    <div class="form-group">
+                        <label for="inputChangePlaneIdentification" class="control-label">Plane identification</label>
+                        <input type="text" class="form-control" id="inputChangePlaneIdentification" placeholder="Enter a plane identification" required>
+                    </div>
 
-                <!--<h2>Delete cat</h2>-->
-                <!--<form data-toggle="validator" role="form" id="deleteCatForm" onsubmit="return false;">-->
+                    <div class="form-group">
+                        <label for="inputChangeCruiseSpeed" class="control-label">Cruise speed</label>
+                        <input type="text" class="form-control" id="inputChangeCruiseSpeed" placeholder="Enter the cruise speed" required>
+                    </div>
 
-                    <!--<div class="form-group">-->
-                        <!--<label for="inputDeleteId" class="control-label">Id of cat</label>-->
-                        <!--<input type="text" class="form-control" id="inputDeleteId" placeholder="Enter the id" required>-->
-                    <!--</div>-->
+                    <div class="form-group">
+                        <label for="inputChangeAmountOfKerosene" class="control-label">Amount of kerosene</label>
+                        <input type="text" class="form-control" id="inputChangeAmountOfKerosene" placeholder="Enter the amount of kerosene" required>
+                    </div>
 
-                    <!--<div class="form-group">-->
-                        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
-                        <!--<button id="closeButton3" type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
-                    <!--</div>-->
+                    <div class="form-group">
+                        <label for="inputChangeIsFlying" class="control-label">Is flying</label>
+                        <input type="text" class="form-control" id="inputChangeIsFlying" placeholder="Is the plane flying?" required>
+                    </div>
 
 
-                <!--</form>-->
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="closeButton2" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of change Airplane Modal -->
+    <!-- New Airplane Modal -->
+    <div id="deleteAirplaneModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">Delete Airplane</h2>
+                </div>
+
+                <div class="modal-body">
+                <form data-toggle="validator" role="form" id="deleteAirplaneForm" onsubmit="return false;">
+
+                    <div class="form-group">
+                        <label for="inputDeleteId" class="control-label">Id of airplane</label>
+                        <input type="text" class="form-control" id="inputDeleteId" placeholder="Enter the id" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="closeButton3" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+
+                </form>
+
+</div>
+</div>
+
+</div>
+</div>
+<!-- End of change Airplane Modal -->
 
 
 </div>

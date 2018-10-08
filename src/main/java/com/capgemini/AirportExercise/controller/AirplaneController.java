@@ -1,5 +1,6 @@
 package com.capgemini.AirportExercise.controller;
 
+import com.capgemini.AirportExercise.exception.NoFuelException;
 import com.capgemini.AirportExercise.model.Airplane;
 import com.capgemini.AirportExercise.repository.AirplaneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,6 +53,29 @@ public class AirplaneController {
             if (update.getAmountOfKerosene() != 0) {
                 oldAirplane.get().setAmountOfKerosene(update.getAmountOfKerosene());
             }
+            if (update.isCurrentlyFlying()) {
+                oldAirplane.get().setCurrentlyFlying(update.isCurrentlyFlying());
+            }
+            if (update.getPlaneIdentification() != null) {
+                oldAirplane.get().setPlaneIdentification(update.getPlaneIdentification());
+            }
+            if (update.getCruiseSpeed() != 0) {
+                oldAirplane.get().setCruiseSpeed(update.getCruiseSpeed());
+            }
+        }
+        return this.airplaneRepository.save(oldAirplane.get());
+    }
+
+    @PutMapping("fly/{id}")
+    public Airplane flyById(@PathVariable long id, @RequestBody Airplane update) {
+        Optional<Airplane> oldAirplane = this.airplaneRepository.findById(id);
+        if (oldAirplane.isPresent()) {
+            double oldAmount = oldAirplane.get().getAmountOfKerosene();
+            double newAmount = oldAmount - 2;
+            if (newAmount < 0) {
+                throw new NoFuelException();
+            }
+            else {oldAirplane.get().setAmountOfKerosene(newAmount);}
             if (update.isCurrentlyFlying()) {
                 oldAirplane.get().setCurrentlyFlying(update.isCurrentlyFlying());
             }

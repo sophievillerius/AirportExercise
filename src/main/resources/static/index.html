@@ -191,14 +191,10 @@
 
             //Get values from html
             var id = $("#inputFlyId").val();
-            var kerosene = 5;
-            var oldvalue = data[id].amountOfKerosene;
-            var newamount = oldvalue - 2;
 
             // Create JS object with data.
             var flyAirplane = {
                 id : id,
-                amountOfKerosene: newamount
             };
             console.log(flyAirplane);
 
@@ -206,7 +202,7 @@
             var validJsonAirplane = JSON.stringify(flyAirplane);
             console.log(validJsonAirplane);
 
-            var src = "api/airplanes/" + id;
+            var src = "api/airplanes/fly/" + id;
 
             // Post JSON to endpoint.
             $.ajax({

@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <link href="/css/stylesheet.css" rel="stylesheet" type="text/css" />
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />
+    <link href="https://fonts.googleapis.com/css?family=Noto+Serif+KR|Open+Sans" rel="stylesheet">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js"></script>
+    <script>
+
+    function getData() {
+            console.log("getting airplane data...");
+
+            // Get the data from endpoint.
+            $.ajax({
+                url:"/api/airplanes/",
+                type:"get",
+                success: function(airplanes) {
+                    // On successful get, reload the datatable with new data.
+                    console.log("This is the data: " + airplanes);
+                    $('#table').DataTable().clear();
+                    $('#table').DataTable().rows.add(airplanes);
+                    $('#table').DataTable().columns.adjust().draw();
+                }
+            });
+        }
+
+    function postData() {
+            console.log("posting a new airplane...");
+
+            //Get values from html
+            var identification = $("#inputPlaneIdentification").val();
+            var speed = $("#inputCruiseSpeed").val();
+            var kerosene = $("#inputAmountOfKerosene").val();
+            var flying = $("#inputIsFlying").val();
+
+            // Create JS object with data.
+            var newAirplane = {
+                planeIdentification : identification,
+                cruisingSpeed : speed,
+                amountOfKerosene : kerosene,
+                isCurrentlyFlying: flying
+            };
+            console.log(newAirplane);
+
+            // Convert JS object to JSON.
+            var validJsonAirplane = JSON.stringify(newAirplane);
+            console.log(validJsonAirplane);
+
+            // Post JSON to endpoint.
+            $.ajax({
+                url:"api/airplanes/",
+                type:"post",
+                data: validJsonAirplane,
+                contentType: "application/json",
+                success: function(result) {
+                    // On successful post, reload data to get the added one as well.
+                    console.log("success post data!");
+                    getData();
+                }
+            });
+        }
+
+        function putData() {
+            console.log("changing...");
+
+            //Get values from html
+            var identification = $("#inputChangePlaneIdentification").val();
+            var speed = $("#inputChangeCruiseSpeed").val();
+            var kerosene = $("#inputChangeAmountOfKerosene").val();
+            var flying = $("#inputChangeIsFlying").val();
+            var id = $("#inputChangeId").val();
+
+            // Create JS object with data.
+            var changeAirplane = {
+                planeIdentification : identification,
+                cruisingSpeed : speed,
+                amountOfKerosene : kerosene,
+                isCurrentlyFlying: flying
+            };
+            console.log(changeAirplane);
+
+            // Convert JS object to JSON.
+            var validJsonAirplane = JSON.stringify(changeAirplane);
+            console.log(validJsonAirplane);
+
+            var src = "api/airplanes/" + id;
+
+            // Post JSON to endpoint.
+            $.ajax({
+                url: src,
+                type:"put",
+                data: validJsonAirplane,
+                contentType: "application/json",
+                success: function(result) {
+                    // On successful post, reload data to get the added one as well.
+                    console.log("success put data!");
+                    getData();
+                }
+            });
+        }
+
+            function deleteData() {
+            console.log("deleting...");
+
+            //Get values from html
+            var id = $("#inputDeleteId").val();
+
+            // Create JS object with data.
+            var deleteAirplane = {
+                id : id
+            };
+            console.log(deleteAirplane);
+
+            // Convert JS object to JSON.
+            var validJsonAirplane = JSON.stringify(deleteAirplane);
+            console.log(validJsonAirplane);
+            console.log("Delete airplane" + id);
+
+
+            var src = "api/airplanes/" + id;
+
+            // Post JSON to endpoint.
+            $.ajax({
+                url: src,
+                type:"delete",
+                data: validJsonAirplane,
+                contentType: "application/json",
+                success: function(result) {
+                    // On successful post, reload data to get the added one as well.
+                    console.log("success delete data!");
+                    getData();
+                }
+            });
+        }
+
+        $(document).ready(function(){
+
+                $("#newAirplaneForm").on('submit', function(e) {
+                console.log("Submitted new airplane form");
+
+                // Post the data from the modal.
+                postData();
+
+                // Reset modal hide and to no values.
+
+                $('#newAirplaneModal').modal('hide');
+
+                $("#inputPlaneIdentification").val("");
+                $("#inputCruiseSpeed").val("");
+                $("#inputAmountOfKerosene").val("");
+                $("#inputIsFlying").val("");
+            });
+
+            $("#changeAirplaneForm").on('submit', function(e) {
+                console.log("Submitted changed airplane form");
+
+                // Put the data from the modal.
+                putData();
+
+                // Reset modal to no values.
+
+                $("#inputChangeId").val("");
+                $("#inputChangeName").val("");
+                $("#inputChangeAge").val("");
+                $("#inputChangeColor").val("");
+            });
+
+                $("#deleteAirplaneForm").on('submit', function(e) {
+                console.log("Submitted delete airplane form");
+
+                // Delete the data.
+                deleteData();
+
+                // Reset modal to no values.
+
+                $("#inputChangeId").val("");
+            });
+
+                $('#table').DataTable({
+                columns: [
+                    { "data": "id" },
+                    { "data": "planeIdentification" },
+                    { "data": "cruiseSpeed" },
+                    { "data": "amountOfKerosene" },
+                    { "data": "currentlyFlying" }
+                ]
+            });
+            // Load first data.
+            getData();
+            $("#btn5").click(function(){
+                $('#table tbody').empty();
+                console.log("hiding data..");
+                });
+            $("#btn6").click(function(){
+            getData();
+            });
+            });
+    </script>
+
+    <meta charset="UTF-8">
+    <title>Airplanes</title>
+</head>
+<body>
+
+<div>
+
+
+                <h1>Airplanes</h1>
+
+
+                <p>Here you can find info about the airplanes of this airport</p>
+
+
+                <div id="cats"></div><br>
+                <br>
+                <h2>Airplanes table</h2>
+                <table id="table">
+                    <thead>
+                    <tr>
+                        <td>Id</td>
+                        <td>Plane identification</td>
+                        <td>Cruise speed</td>
+                        <td>Amount of kerosene</td>
+                        <td>is flying</td>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+
+                <button id="btn5">Hide data</button>
+                <button id="btn6">Show data</button>
+
+                <br>
+                <br>
+
+    <!-- New Airplane Modal -->
+    <div id="newAirplaneModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">New Airplane</h4>
+                </div>
+
+                <div class="modal-body">
+
+                <form data-toggle="validator" role="form" id="newCatForm" onsubmit="return false;">
+                    <div class="form-group">
+                        <label for="inputPlaneIdentification" class="control-label">Plane identification</label>
+                        <input type="text" class="form-control" id="inputPlaneIdentification" placeholder="Enter plane identification" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputCruiseSpeed" class="control-label">Cruise speed</label>
+                        <input type="text" class="form-control" id="inputCruiseSpeed" placeholder="Enter cruise speed" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputAmountOfKerosene" class="control-label">Amount of kerosene</label>
+                        <input type="text" class="form-control" id="inputAmountOfKerosene" placeholder="Enter the amount of kerosene" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="inputIsFlying" class="control-label">Flying</label>
+                        <input type="text" class="form-control" id="inputIsFlying" placeholder="Enter whether the plane is flying" required>
+                    </div>
+
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button id="closeButton1" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+
+                </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of new Airplane Modal -->
+
+
+
+                <!--<h2>Change cat</h2>-->
+                <!--<form data-toggle="validator" role="form" id="changeCatForm" onsubmit="return false;">-->
+
+                    <!--<div class="form-group">-->
+                        <!--<label for="inputChangeId" class="control-label">Id of cat</label>-->
+                        <!--<input type="text" class="form-control" id="inputChangeId" placeholder="Enter the id" required>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                        <!--<label for="inputChangeName" class="control-label">Name of cat</label>-->
+                        <!--<input type="text" class="form-control" id="inputChangeName" placeholder="Enter a name" required>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                        <!--<label for="inputChangeAge" class="control-label">Age of cat</label>-->
+                        <!--<input type="text" class="form-control" id="inputChangeAge" placeholder="Enter the age" required>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                        <!--<label for="inputChangeColor" class="control-label">Color of cat</label>-->
+                        <!--<input type="text" class="form-control" id="inputChangeColor" placeholder="Enter the color" required>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+                        <!--<button id="closeButton2" type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                    <!--</div>-->
+
+                <!--</form>-->
+
+                <!--<h2>Delete cat</h2>-->
+                <!--<form data-toggle="validator" role="form" id="deleteCatForm" onsubmit="return false;">-->
+
+                    <!--<div class="form-group">-->
+                        <!--<label for="inputDeleteId" class="control-label">Id of cat</label>-->
+                        <!--<input type="text" class="form-control" id="inputDeleteId" placeholder="Enter the id" required>-->
+                    <!--</div>-->
+
+                    <!--<div class="form-group">-->
+                        <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+                        <!--<button id="closeButton3" type="button" class="btn btn-default" data-dismiss="modal">Close</button>-->
+                    <!--</div>-->
+
+
+                <!--</form>-->
+
+
+</div>
+
+</body>
+</html>

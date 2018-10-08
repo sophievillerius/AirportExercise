@@ -5,6 +5,7 @@ import com.capgemini.AirportExercise.repository.AirplaneRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.PostConstruct;
 import java.util.Collection;
 import java.util.Optional;
 
@@ -13,6 +14,16 @@ import java.util.Optional;
 public class AirplaneController {
     @Autowired
     private AirplaneRepository airplaneRepository;
+
+//    @PostConstruct
+//    //this method will be called every time the application is started
+//    public void addSomeAirplanesToGetStarted() {
+//        for(int i = 1; i < 6; i++) {
+//            Airplane airplane = new Airplane();
+//            airplane.setPlaneIdentification("AF " + i);
+//            this.airplaneRepository.save(airplane);
+//        }
+//    }
 
     @PostMapping
     public Airplane create(@RequestBody Airplane newAirplane) {

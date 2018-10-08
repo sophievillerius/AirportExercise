@@ -18,8 +18,16 @@ public class Airplane {
     private final double keroseneCapacity = 5;
     private double amountOfKerosene;
 
-    public Airplane(String planeIdentification) {
-        this.planeIdentification = planeIdentification;
+    public Airplane() {
+
+    }
+
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String toString() {

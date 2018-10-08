@@ -27,24 +27,24 @@
     <script>
 
     function getData() {
-            console.log("getting airplane data...");
+        console.log("getting airplane data...");
 
-            // Get the data from endpoint.
-            $.ajax({
-                url:"/api/airplanes/",
-                type:"get",
-                success: function(airplanes) {
-                    // On successful get, reload the datatable with new data.
-                    console.log("This is the data: " + airplanes);
-                    $('#table').DataTable().clear();
-                    $('#table').DataTable().rows.add(airplanes);
-                    $('#table').DataTable().columns.adjust().draw();
-                }
-            });
-        }
+        // Get the data from endpoint.
+        $.ajax({
+            url:"/api/airplanes/",
+            type:"get",
+            success: function(airplanes) {
+                // On successful get, reload the datatable with new data.
+                console.log("This is the data: " + airplanes);
+                $('#table').DataTable().clear();
+                $('#table').DataTable().rows.add(airplanes);
+                $('#table').DataTable().columns.adjust().draw();
+            }
+        });
+    }
 
     function postData() {
-            console.log("posting a new airplane...");
+        console.log("posting a new airplane...");
 
             //Get values from html
             var identification = $("#inputPlaneIdentification").val();
@@ -184,6 +184,42 @@
                     getData();
                 }
             });
+         }
+
+            function flyAirplane() {
+            console.log("flying...");
+
+            //Get values from html
+            var id = $("#inputFlyId").val();
+            var kerosene = 5;
+            var oldvalue = data[id].amountOfKerosene;
+            var newamount = oldvalue - 2;
+
+            // Create JS object with data.
+            var flyAirplane = {
+                id : id,
+                amountOfKerosene: newamount
+            };
+            console.log(flyAirplane);
+
+            // Convert JS object to JSON.
+            var validJsonAirplane = JSON.stringify(flyAirplane);
+            console.log(validJsonAirplane);
+
+            var src = "api/airplanes/" + id;
+
+            // Post JSON to endpoint.
+            $.ajax({
+                url: src,
+                type:"put",
+                data: validJsonAirplane,
+                contentType: "application/json",
+                success: function(result) {
+                    // On successful post, reload data to get the added one as well.
+                    console.log("success put data!");
+                    getData();
+                }
+            });
         }
 
         $(document).ready(function(){
@@ -234,7 +270,9 @@
                 $("#inputDeleteId").val("");
             });
 
-                            $("#fillAirplaneForm").on('submit', function(e) {
+                //function to fill the airplane up to 5 tons again
+
+                $("#fillAirplaneForm").on('submit', function(e) {
                 console.log("Submitted fill airplane form");
 
                 // Fill the airplane.
@@ -247,6 +285,21 @@
                 $("#inputFillId").val("");
             });
 
+             //function to fly the airplane
+
+                $("#flyAirplaneForm").on('submit', function(e) {
+                console.log("Submitted fly airplane form");
+
+                // fly the airplane.
+                flyAirplane();
+
+                // Reset modal to hide and to no values.
+
+                $('#flyAirplaneModal').modal('hide');
+
+                $("#inputFlyId").val("");
+            });
+
                 $('#table').DataTable({
                 columns: [
                     { "data": "id" },
@@ -256,9 +309,11 @@
                     { "data": "currentlyFlying" }
                 ]
             });
+
             // Load first data.
             getData();
             });
+
     </script>
 
     <meta charset="UTF-8">
@@ -302,17 +357,20 @@
 
     <div class="row">
 
-                    <div class="col-md-3">
+                    <div class="col-md-2">
             <button type="button" data-toggle="modal" data-target="#newAirplaneModal">New Airplane</button>
         </div>
-                <div class="col-md-3">
+                <div class="col-md-2">
             <button type="button" data-toggle="modal" data-target="#changeAirplaneModal">Edit Airplane</button>
         </div>
-                    <div class="col-md-3">
+                    <div class="col-md-2">
             <button type="button" data-toggle="modal" data-target="#deleteAirplaneModal">Delete Airplane</button>
         </div>
-        <div class="col-md-3">
+        <div class="col-md-2">
             <button type="button" data-toggle="modal" data-target="#fillAirplaneModal">Fill Airplane</button>
+        </div>
+        <div class="col-md-2">
+            <button type="button" data-toggle="modal" data-target="#flyAirplaneModal">Fly Airplane</button>
         </div>
     </div>
 
@@ -485,7 +543,41 @@
 
         </div>
     </div>
-    <!-- End of delete Airplane Modal -->
+    <!-- End of fill Airplane Modal -->
+
+    <!-- Fly Airplane Modal -->
+    <div id="flyAirplaneModal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h2 class="modal-title">Fly Airplane</h2>
+                </div>
+
+                <div class="modal-body">
+                    <form data-toggle="validator" role="form" id="flyAirplaneForm" onsubmit="return false;">
+
+                        <div class="form-group">
+                            <label for="inputFlyId" class="control-label">Which airplane do you want to fly?</label>
+                            <input type="text" class="form-control" id="inputFlyId" placeholder="Enter the id" required>
+                        </div>
+
+                        <div class="form-group">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                            <button id="closeButton5" type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+
+
+                    </form>
+
+                </div>
+            </div>
+
+        </div>
+    </div>
+    <!-- End of fill Airplane Modal -->
 
 
 </div>

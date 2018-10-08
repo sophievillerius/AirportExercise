@@ -49,9 +49,18 @@ public class AirplaneController {
     public Airplane updateById(@PathVariable long id, @RequestBody Airplane update) {
         Optional<Airplane> oldAirplane = this.airplaneRepository.findById(id);
         if (oldAirplane.isPresent()) {
-            oldAirplane.get().setAmountOfKerosene(update.getAmountOfKerosene());
-            oldAirplane.get().setCurrentlyFlying(update.isCurrentlyFlying());
-            oldAirplane.get().setPlaneIdentification(update.getPlaneIdentification());
+            if (update.getAmountOfKerosene() != 0) {
+                oldAirplane.get().setAmountOfKerosene(update.getAmountOfKerosene());
+            }
+            if (update.isCurrentlyFlying()) {
+                oldAirplane.get().setCurrentlyFlying(update.isCurrentlyFlying());
+            }
+            if (update.getPlaneIdentification() != null) {
+                oldAirplane.get().setPlaneIdentification(update.getPlaneIdentification());
+            }
+            if (update.getCruiseSpeed() != 0) {
+                oldAirplane.get().setCruiseSpeed(update.getCruiseSpeed());
+            }
         }
         return this.airplaneRepository.save(oldAirplane.get());
     }

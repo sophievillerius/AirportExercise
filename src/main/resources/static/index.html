@@ -4,25 +4,16 @@
     <link href="/css/stylesheet.css" rel="stylesheet" type="text/css" />
     <link href="https://fonts.googleapis.com/css?family=Noto+Serif+KR|Open+Sans" rel="stylesheet">
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
+    <link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css">
 
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-    <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>
+    <script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js">
 
-    <!--<link href="//cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" type="text/css" />-->
-    <!--<script src="//cdn.datatables.net/1.10.19/js/jquery.dataTables.min.js">-->
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
 
-    <!--<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">-->
-
-
-    <!--<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>-->
-    <!--<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>-->
-    <!--<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js" integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy" crossorigin="anonymous"></script>-->
-
-    <!--&lt;!&ndash;<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">&ndash;&gt;-->
-    <!--<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>-->
     </script>
     <script>
 
@@ -44,20 +35,20 @@
     }
 
     function postData() {
-        console.log("posting a new airplane...");
+        console.log("adding a new airplane...");
 
             //Get values from html
             var identification = $("#inputPlaneIdentification").val();
             var speed = $("#inputCruiseSpeed").val();
             var kerosene = $("#inputAmountOfKerosene").val();
-            var flying = $("#inputIsFlying").val();
+            var destiny = $("#inputDestination").val();
 
             // Create JS object with data.
             var newAirplane = {
                 planeIdentification : identification,
                 cruisingSpeed : speed,
                 amountOfKerosene : kerosene,
-                isCurrentlyFlying: flying
+                destination: destiny
             };
             console.log(newAirplane);
 
@@ -73,7 +64,7 @@
                 contentType: "application/json",
                 success: function(result) {
                     // On successful post, reload data to get the added one as well.
-                    console.log("success post data!");
+                    console.log("success add airplane!");
                     getData();
                 }
             });
@@ -86,7 +77,7 @@
             var identification = $("#inputChangePlaneIdentification").val();
             var speed = $("#inputChangeCruiseSpeed").val();
             var kerosene = $("#inputChangeAmountOfKerosene").val();
-            var flying = $("#inputChangeIsFlying").val();
+            var destiny = $("#inputChangeDestination").val();
             var id = $("#inputChangeId").val();
 
             // Create JS object with data.
@@ -94,7 +85,7 @@
                 planeIdentification : identification,
                 cruisingSpeed : speed,
                 amountOfKerosene : kerosene,
-                isCurrentlyFlying: flying
+                destination: destiny
             };
             console.log(changeAirplane);
 
@@ -176,8 +167,8 @@
                 data: validJsonAirplane,
                 contentType: "application/json",
                 success: function(result) {
-                    // On successful post, reload data to get the added one as well.
-                    console.log("success put data!");
+                    // On successful post, reload data to see the increase in fuel.
+                    console.log("success fill airplane!");
                     getData();
                 }
             });
@@ -208,8 +199,8 @@
                 data: validJsonAirplane,
                 contentType: "application/json",
                 success: function(result) {
-                    // On successful post, reload data to get the added one as well.
-                    console.log("success put data!");
+                    // On successful post, reload data to see the decrease in fuel.
+                    console.log("success fly airplane!");
                     getData();
                 }
             });
@@ -230,7 +221,7 @@
                 $("#inputPlaneIdentification").val("");
                 $("#inputCruiseSpeed").val("");
                 $("#inputAmountOfKerosene").val("");
-                $("#inputIsFlying").val("");
+                $("#inputDestination").val("");
             });
 
             $("#changeAirplaneForm").on('submit', function(e) {
@@ -246,7 +237,7 @@
                 $("#inputChangePlaneIdentification").val("");
                 $("#inputChangeCruiseSpeed").val("");
                 $("#inputChangeAmountOfKerosene").val("");
-                $("#inputChangeIsFlying").val("");
+                $("#inputChangeDestination").val("");
                 $("#inputChangeId").val("");
             });
 
@@ -397,8 +388,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="inputIsFlying" class="control-label">Flying</label>
-                        <input type="text" class="form-control" id="inputIsFlying" placeholder="Enter whether the plane is flying" required>
+                        <label for="inputDestination" class="control-label">Destination</label>
+                        <input type="text" class="form-control" id="inputDestination" placeholder="Enter the destination" required>
                     </div>
 
                     <div class="form-group">
@@ -453,8 +444,8 @@
                     </div>
 
                     <div class="form-group">
-                        <label for="inputChangeIsFlying" class="control-label">Is flying</label>
-                        <input type="text" class="form-control" id="inputChangeIsFlying" placeholder="Is the plane flying?" required>
+                        <label for="inputChangeDestination" class="control-label">Destination</label>
+                        <input type="text" class="form-control" id="inputChangeDestination" placeholder="Enter the destination" required>
                     </div>
 
 

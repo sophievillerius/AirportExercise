@@ -17,6 +17,7 @@ public class Airplane {
     //final int for kerosine capacity because this number is the same for all airplanes and should not change. I make this a double so that I can later add it up with double values
     private final double keroseneCapacity = 5;
     private double amountOfKerosene;
+    private DestinationAirport destination;
 
     public Airplane() {
 
@@ -85,5 +86,17 @@ public class Airplane {
 
     public void setAmountOfKerosene(double amountOfKerosene) {
         this.amountOfKerosene = amountOfKerosene;
+    }
+
+    public DestinationAirport getDestination() {
+        return destination;
+    }
+
+    public void setDestination(DestinationAirport destination) {
+        this.destination = destination;
+    }
+
+    public double getKeroseneCapacity() {
+        return keroseneCapacity;
     }
 }

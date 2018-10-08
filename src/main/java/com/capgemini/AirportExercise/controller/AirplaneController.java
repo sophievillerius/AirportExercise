@@ -89,6 +89,24 @@ public class AirplaneController {
         return this.airplaneRepository.save(oldAirplane.get());
     }
 
+    @PutMapping("fill/{id}")
+    public Airplane refillById(@PathVariable long id, @RequestBody Airplane update) {
+        Optional<Airplane> oldAirplane = this.airplaneRepository.findById(id);
+        if (oldAirplane.isPresent()) {
+            oldAirplane.get().setAmountOfKerosene(5);
+            if (update.isCurrentlyFlying()) {
+                oldAirplane.get().setCurrentlyFlying(update.isCurrentlyFlying());
+            }
+            if (update.getPlaneIdentification() != null) {
+                oldAirplane.get().setPlaneIdentification(update.getPlaneIdentification());
+            }
+            if (update.getCruiseSpeed() != 0) {
+                oldAirplane.get().setCruiseSpeed(update.getCruiseSpeed());
+            }
+        }
+        return this.airplaneRepository.save(oldAirplane.get());
+    }
+
     @DeleteMapping("{id}")
     public void delete(@PathVariable long id) {
         this.airplaneRepository.deleteById(id);
